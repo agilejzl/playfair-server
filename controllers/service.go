@@ -48,14 +48,13 @@ func (c *ServiceController) Post() {
   fmt.Println(worker, " param: ", param)
   var params = strings.Split(param, " ")
 
-  var sResp = ServiceResp{}
   // var params = []string { "-s", "46504c590301010000000004020002bb", "16" }
   Result, err := CmdAndChangeDir("playfair", worker, params)
-  sResp.Result = Result
   if err != nil {
-    sResp.ErrMsg = err.Error()
+    c.Data["json"] = err.Error()
+  } else {
+    c.Data["json"] = Result
   }
 
-  c.Data["json"] = sResp
   c.ServeJSON()
 }
