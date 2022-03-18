@@ -22,9 +22,9 @@ func CmdAndChangeDir(dir string, commandName string, params []string) (string, e
   cmd := exec.Command(commandName, params...)
   if len(dir) > 0 {
     cmd.Dir = dir
-    fmt.Println("dir", dir, "Cmd: ", cmd.Args)
+    fmt.Println("Dir "+dir+", cmd Args:", cmd.Args)
   } else {
-    fmt.Println("Cmd: ", cmd.Args)
+    fmt.Println("Cmd Args:", cmd.Args)
   }
 
   var out bytes.Buffer
@@ -45,11 +45,11 @@ func CmdAndChangeDir(dir string, commandName string, params []string) (string, e
 func (c *ServiceController) Post() {
   worker := c.GetString("worker")
   param := c.GetString("param")
-  fmt.Println(worker, " param: ", param)
+  fmt.Println(worker, "param: \""+param+"\"")
   var params = strings.Split(param, " ")
 
   // var params = []string { "-s", "46504c590301010000000004020002bb", "16" }
-  Result, err := CmdAndChangeDir("playfair", worker, params)
+  Result, err := CmdAndChangeDir("", "./playfair/"+worker, params)
   if err != nil {
     c.Data["json"] = err.Error()
   } else {
